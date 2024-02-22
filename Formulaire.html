@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tarifs</title>
+
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+
+  <style>
+    body {
+      .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        color: #007bff;
+        margin-bottom: 20px;
+      }
+
+      label {
+        font-weight: bold;
+      }
+
+      input[type="number"] {
+        width: 80px;
+      }
+
+      input[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #0056b3;
+      }
+
+      /* Style pour le navbar */
+
+      .navbar {
+        background-color: #343a40; /* Couleur de fond */
+      }
+
+      .navbar-brand {
+        color: #fff; /* Couleur du texte */
+        font-size: 1.5rem; /* Taille de la police */
+        font-weight: bold; /* Gras */
+      }
+
+      .navbar-nav .nav-link {
+        color: #fff; /* Couleur du texte */
+      }
+
+      .navbar-nav .nav-link:hover {
+        color: #f8f9fa; /* Couleur du texte au survol */
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+  <a class="navbar-brand" href="index.html">Exposition Picasso</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="Les%20Oeuvres.html">Les œuvres</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="Informations%20pratiques.html">Informations pratiques</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="base.php">Tarifs</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="Mentions%20légales.html">Mentions Légales</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="Formulaire.html">Formulaire</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  <h2 class="mb-4">Formulaire de commande de tickets</h2>
+
+  <form action="calcul_tarif.php" method="post">
+    <div class="form-group">
+      <label for="normal">Nombre de tickets - Normal :</label>
+      <input type="number" id="normal" name="normal" value="0" min="0" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="reduit">Nombre de tickets - Tarif réduit :</label>
+      <input type="number" id="reduit" name="reduit" value="0" min="0" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="etudiant">Nombre de tickets - Tarif étudiant :</label>
+      <input type="number" id="etudiant" name="etudiant" value="0" min="0" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="membre">Nombre de tickets - Tarif membre :</label>
+      <input type="number" id="membre" name="membre" value="0" min="0" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="moins12">Nombre de tickets - Tarif moins de 12 ans :</label>
+      <input type="number" id="moins12" name="moins12" value="0" min="0" class="form-control">
+    </div>
+
+    <input type="submit" value="Calculer le tarif total" class="btn btn-primary">
+  </form>
+</div>
+
+
+</body>
+</html>

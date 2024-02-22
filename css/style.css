@@ -1,0 +1,59 @@
+/* Body */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa; /* Couleur de fond */
+  color: #343a40; /* Couleur du texte */
+}
+
+/* Header */
+header {
+  text-align: center;
+  padding: 20px;
+  background-color: #343a40; /* Couleur de fond */
+  color: #fff; /* Couleur du texte */
+}
+
+/* Titre */
+h1 {
+  color: #007bff; /* Couleur du titre */
+  margin-bottom: 20px;
+}
+
+/* Conteneur des œuvres */
+#artworks {
+  text-align: center;
+  margin: 20px;
+}
+
+/* Tableau */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #f8f9fa; /* Couleur de fond */
+  color: #343a40; /* Couleur du texte */
+  font-weight: bold; /* Gras */
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Carrousel des images */
+#carousel .small-image img {
+  max-width: 29%; /* Ou ajustez selon vos préférences */
+  height: auto;
+}

@@ -1,0 +1,36 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  text-align: center;
+  padding: 20px;
+}
+
+#artworks {
+  text-align: center;
+  margin: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+.img-container {
+  width: 400px; /* Ajustez la largeur selon vos préférences */
+  height: 400px; /* Ajustez la hauteur selon vos préférences */
+  overflow: hidden;
+}
+
+.img-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+}

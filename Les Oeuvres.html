@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Les œuvres</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <!-- Assurez-vous d'avoir un fichier de style CSS pour personnaliser le design si nécessaire -->
+  <style>
+    /* Styles pour les images */
+    .artwork-image {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    /* Effet de survol sur les images */
+    .artwork-image:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Styles pour les colonnes */
+    .artwork-column {
+      padding: 0 10px;
+    }
+
+    /* Style personnalisé pour le navbar */
+    .navbar {
+      background-color: #343a40; /* Couleur de fond */
+    }
+
+    .navbar-brand {
+      color: #fff; /* Couleur du texte */
+      font-size: 1.5rem; /* Taille de la police */
+      font-weight: bold; /* Gras */
+    }
+
+    .navbar-nav .nav-link {
+      color: #fff; /* Couleur du texte */
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #f8f9fa; /* Couleur du texte au survol */
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="index.html">Exposition Picasso</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="Les%20Oeuvres.html">Les œuvres</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="Informations%20pratiques.html">Informations pratiques</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="base.php">Tarifs</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="Mentions%20légales.html">Mentions Légales</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="Formulaire.html">Formulaire</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<!-- Section des œuvres -->
+<section id="artworks">
+  <div class="container">
+    <div class="row">
+      <!-- Œuvres seront générées par JavaScript -->
+    </div>
+  </div>
+</section>
+
+<!-- Ajoutez vos liens vers les fichiers JS nécessaires ici -->
+<script src="js/script.js"></script> <!-- Assurez-vous d'avoir un fichier JavaScript si nécessaire -->
+
+<script>
+  // Tableau des chemins vers les images
+  var images = [
+    {src: "img/Femme-asise.jpeg", href: "https://fr.artsdot.com/@@/8XYNRE-Pablo-Picasso-Femme-assise"},
+    {src: "img/Jeune-fille-devant-un-miroir.jpg", href: "https://www.pablopicasso.net/fr/jeune-fille-devant-un-miroir/"},
+    {src: "img/La-femme-a-la-fleur.jpeg", href: "https://bi.uobjournal.com/1718-description-of-the-painting-pablo-picasso-woman-with.html"},
+    {src: "img/La-femme-qui-pleure.jpeg", href: "https://www.museumtv.art/artnews/articles/analyse-de-loeuvre-%E2%80%AFfemme-qui-pleure%E2%80%AF-de-pablo-picasso-1937/"},
+    {src: "img/Le-Baiser.jpg", href: "https://journals.openedition.org/carnets/6868"},
+    {src: "img/Le-reve.jpg", href: "https://fr.wikipedia.org/wiki/Le_R%C3%AAve_(Picasso)#:~:text=Le%20R%C3%AAve%20est%20une%20%C5%93uvre,repr%C3%A9sentation%20%C3%A9rotique%20intense%20et%20color%C3%A9e."},
+    {src: "img/Les-Demoiselles-d-Avignon.jpg", href: "https://www.riseart.com/fr/article/2703/l-oeuvre-a-la-loupe-les-demoiselles-d-avignon-de-picasso"},
+    {src: "img/Le-vieux-guitariste-aveugle.jpg", href: "https://celebracionpicasso.es/fr/noticia/obra-de-la-semana-el-viejo-guitarrista-ciego-1903"},
+    {src: "img/Nude-in-red-armchair.jpg", href: "https://www.museepicassoparis.fr/fr/grand-nu-au-fauteuil-rouge#:~:text=Le%20%C2%AB%20Grand%20Nu%20au%20fauteuil,noires%20et%20filaires%20de%201928."}
+  ];
+
+  // Mélanger les images aléatoirement
+  images.sort(() => Math.random() - 0.5);
+
+  // Sélectionner le conteneur des œuvres
+  var artworksContainer = document.getElementById("artworks").querySelector(".row");
+
+  // Ajouter chaque image au conteneur
+  images.forEach(image => {
+    var col = document.createElement("div");
+    col.className = "col-lg-4 col-md-6 col-sm-12 mb-4 artwork-column";
+
+    var link = document.createElement("a");
+    link.href = image.href;
+    link.target = "_blank";
+
+    var img = document.createElement("img");
+    img.src = image.src;
+    img.alt = "Œuvre";
+    img.className = "artwork-image img-fluid";
+
+    link.appendChild(img);
+    col.appendChild(link);
+    artworksContainer.appendChild(col);
+  });
+
+</script>
+<!-- Ajoutez vos liens vers les fichiers JS nécessaires ici -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
