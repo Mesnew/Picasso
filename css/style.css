@@ -1,22 +1,20 @@
 /* Body */
 body {
-  font-family: 'Arial', sans-serif;
   margin: 0;
-  padding: 0;
-  background-color: #f8f9fa; /* Couleur de fond */
-  color: #343a40; /* Couleur du texte */
+  overflow-x: hidden;
+  font-family: 'Arial', sans-serif;
+  color: #000000; /* Couleur du texte */
 }
 
 /* Header */
 header {
   text-align: center;
-  padding: 20px;
-  background-color: #343a40; /* Couleur de fond */
+  padding: 40px;
   color: #fff; /* Couleur du texte */
 }
 
 /* Titre */
-h1 {
+h1, h2 {
   color: #007bff; /* Couleur du titre */
   margin-bottom: 20px;
 }
@@ -40,9 +38,8 @@ th, td {
   text-align: left;
 }
 
-th {
-  background-color: #f8f9fa; /* Couleur de fond */
-  color: #343a40; /* Couleur du texte */
+th { /* Titres */
+  color: #000000; /* Couleur du texte */
   font-weight: bold; /* Gras */
 }
 
@@ -56,4 +53,96 @@ img {
 #carousel .small-image img {
   max-width: 29%; /* Ou ajustez selon vos préférences */
   height: auto;
+}
+
+/* Style personnalisé pour le navbar */
+.navbar {
+}
+
+.navbar-brand {
+  color: #fff; /* Couleur du texte */
+  font-size: 1.5rem; /* Taille de la police */
+  font-weight: bold; /* Gras */
+}
+
+.navbar-nav .nav-link {
+  color: #fff; /* Couleur du texte */
+}
+
+.navbar-nav .nav-link:hover {
+  color: #f8f9fa; /* Couleur du texte au survol */
+}
+
+/* Style pour la section d'accueil */
+#home {
+  padding: 50px 0; /* Espacement intérieur */
+}
+
+#home h2 {
+  color: #007bff; /* Couleur du titre */
+  margin-bottom: 20px; /* Marge inférieure */
+}
+
+#home p {
+  color: #6c757d; /* Couleur du texte */
+  font-size: 18px; /* Taille de la police */
+}
+
+/* Style pour le carrousel */
+#carouselExample img {
+  border-radius: 10px; /* Coins arrondis pour les images */
+}
+
+.container {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.8); /* Fond blanc avec opacité */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  font-weight: bold;
+}
+
+input[type="number"] {
+  width: 80px;
+}
+
+input[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+#threejs-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Mettre à l'arrière-plan */
+}
+
+.content-wrapper {
+  margin-top: 70px; /* Ajustez cette valeur pour ajouter de l'espacement sous la navbar */
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+}
+
+html, body, canvas {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent; /* S'assure que le body est transparent */
+  display: block;
 }

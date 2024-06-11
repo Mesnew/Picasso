@@ -1,0 +1,11 @@
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ /Picasso/
+
+RewriteRule ^index$ index.php
+RewriteRule ^Oeuvres$ Les_Oeuvres.php
+RewriteRule ^Infos$ Informations_pratiques.php
+RewriteRule ^Formulaire$ Formulaire.php
+RewriteRule ^Mentions$ Mentions_légales.php
+RewriteRule ^Base$ base.php

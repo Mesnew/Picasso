@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Résultat du calcul du tarif</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exposition Picasso</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <style>
         body, html {
             margin: 0;
@@ -19,12 +19,11 @@
             background: transparent;
             z-index: -1;
             top: 0;
-            display: block;
             width: 100%;
             height: 100%;
             position: fixed;
         }
-        #threejs-container {
+        #three-container {
             position: fixed;
             top: 0;
             left: 0;
@@ -36,7 +35,7 @@
         .content-wrapper {
             position: relative;
             z-index: 1;
-            margin-top: 70px; /* Ajustez cette valeur pour ajouter de l'espacement sous la navbar */
+            margin-top: 70px;
             padding: 20px;
             background-color: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
@@ -44,63 +43,56 @@
     </style>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/index">Exposition Picasso</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" href="/Oeuvres">Les œuvres</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Infos">Informations pratiques</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Base">Tarifs</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Mentions">Mentions Légales</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Formulaire">Formulaire</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Canvas Three.js -->
 <canvas id="canvas"></canvas>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-  <a class="navbar-brand" href="/index">Exposition Picasso</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<section id="home">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Texte d'accroche promouvant l'exposition</h2>
+                <p>Citation du commissaire de l'exposition expliquant le plaisir, l'enjeu et les liens avec les films d'animation.</p>
+            </div>
+            <div class="col-md-6">
+                <div id="carouselExample" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img class="d-block w-100" src="img/La-femme-a-la-fleur.jpeg" alt="Tableau 1">
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block w-100" src="img/Le-reve.jpg" alt="Tableau 2">
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block w-100" src="img/Le-vieux-guitariste-aveugle.jpg" alt="Tableau 3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="/Oeuvres">Les œuvres</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/Infos">Informations pratiques</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="base.php">Tarifs</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="Mentions%20légales.html">Mentions Légales</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="Formulaire.php">Formulaire</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-<?php
-// Vérifier si le formulaire a été soumis
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  // Récupérer les quantités de tickets pour chaque catégorie
-  $normal = isset($_POST['normal']) ? intval($_POST['normal']) : 0;
-  $reduit = isset($_POST['reduit']) ? intval($_POST['reduit']) : 0;
-  $etudiant = isset($_POST['etudiant']) ? intval($_POST['etudiant']) : 0;
-  $membre = isset($_POST['membre']) ? intval($_POST['membre']) : 0;
-  $moins12 = isset($_POST['moins12']) ? intval($_POST['moins12']) : 0;
-
-  // Définir les prix des tickets pour chaque catégorie
-
-  $prix_normal = 32;
-  $prix_reduit = 24;
-  $prix_etudiant = 20;
-  $prix_membre = 12;
-  $prix_moins12 = 5;
-
-  // Calculer le tarif total
-  $tarif_total = ($normal * $prix_normal) + ($reduit * $prix_reduit) + ($etudiant * $prix_etudiant) + ($membre * $prix_membre) + ($moins12 * $prix_moins12);
-
-  // Afficher le tarif total
-  echo '<div class="container content-wrapper">';
-  echo "<h2>Tarif total : $tarif_total €</h2>";
-  echo '</div>';
-}
-?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/175711/bas.js"></script>
+<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/175711/OrbitControls-2.js"></script>
+
 <script>
     // Textures
     var q = 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjExMjU4fQ&auto=format&fit=crop&w=827&q=80';
@@ -140,29 +132,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             r_ambient.position.set( 5, 5, 5 );
             r_ambient.lookAt( 0, 0, 0 );
             r_ambient.castShadow = true;
-            r_ambient.shadow.mapSize.width = 512;  // default
-            r_ambient.shadow.mapSize.height = 512; // default
-            r_ambient.shadow.camera.near = 0.5;    // default
-            r_ambient.shadow.camera.far = 500;     // default
-            //--
+            r_ambient.shadow.mapSize.width = 512;
+            r_ambient.shadow.mapSize.height = 512;
+            r_ambient.shadow.camera.near = 0.5;
+            r_ambient.shadow.camera.far = 500;
             scene.add( r_ambient );
-            //scene.add( l_ambient );
         }
-        //--
-
         function e_material(value) {
             (value==undefined) ? value = a : value = value;
             const o = new THREE.TextureLoader().load(value);
             return o;
         }
-
         function e_envMap() {
             const t_envMap = new THREE.TextureLoader().load(a);
             t_envMap.mapping = THREE.EquirectangularReflectionMapping;
             t_envMap.magFilter = THREE.LinearFilter;
             t_envMap.minFilter = THREE.LinearMipmapLinearFilter;
             t_envMap.encoding = THREE.sRGBEncoding;
-            //---
             return t_envMap;
         }
         var c_mat, a_mes, b_mes, c_mes, d_mes;
@@ -213,13 +199,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             b_mes.visible = c_mes.visible = false;
         }
-
         function createPoints(value, size) {
             const geometry = new THREE.BufferGeometry();
             const positions = [];
             const n = (size) ? size : 20, n2 = n / 2;
             for (let i = 0; i < ((value) ? value : 15000); i++) {
-                // positions
                 const x = Math.random() * n - n2;
                 const y = Math.random() * n - n2;
                 const z = Math.random() * n - n2;
@@ -227,12 +211,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
             geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
             geometry.computeBoundingSphere();
-            //
             const material = new THREE.PointsMaterial({ size: 0.02});
             const points = new THREE.Points(geometry, material);
             s_galax.add(points);
         }
-
         function animation() {
             requestAnimationFrame(animation);
             let time = Date.now() * 0.003;
@@ -240,15 +222,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             s_group.rotation.x += 0.0005;
             s_galax.rotation.z += 0.001 / 4;
             s_galax.rotation.x += 0.0005 / 4;
-            //--
-            //--
-            //s_group.position.y = Math.sin(time * 0.05) * 0.05;
-
             camera.lookAt(scene.position);
             camera.updateMatrixWorld();
             renderer.render(scene, camera);
         }
-
         function onWindowResize() {
             const w = window.innerWidth;
             const h = window.innerHeight;
@@ -256,18 +233,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             camera.updateProjectionMatrix();
             renderer.setSize(w, h);
         }
-        //--
         createElements();
         createPoints();
         createLights();
         onWindowResize();
         animation();
-        //--
         window.addEventListener('resize', onWindowResize, false);
     }
-
     window.addEventListener('load', main, false);
 </script>
+
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="js/script.js"></script>

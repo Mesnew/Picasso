@@ -1,0 +1,297 @@
+<?php include 'db.config.php'; ?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Switch Management</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <style>
+        body {
+            padding-top: 20px;
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .switch-diagram-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .port {
+            width: 50px;
+            height: 40px;
+            margin: 5px;
+            background-color: lightgrey;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .port:hover {
+            transform: scale(1.1);
+        }
+
+        .port.active {
+            background-color: green;
+            color: white;
+        }
+
+        .port.inactive {
+            background-color: red;
+            color: white;
+        }
+
+        .row {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .row.middle {
+            justify-content: center;
+        }
+
+        #port-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .nav-tabs {
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center">Switch Management</h1>
+    <ul class="nav nav-tabs justify-content-center" id="switchTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="switch1-tab" data-toggle="tab" href="#switch1" role="tab" aria-controls="switch1" aria-selected="true">02-1</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="switch2-tab" data-toggle="tab" href="#switch2" role="tab" aria-controls="switch2" aria-selected="false">02-2</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="switch3-tab" data-toggle="tab" href="#switch3" role="tab" aria-controls="switch3" aria-selected="false">03-1</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="switch4-tab" data-toggle="tab" href="#switch4" role="tab" aria-controls="switch4" aria-selected="false">03-2</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="switch5-tab" data-toggle="tab" href="#switch5" role="tab" aria-controls="switch5" aria-selected="false">04-1</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="switch6-tab" data-toggle="tab" href="#switch6" role="tab" aria-controls="switch6" aria-selected="false">04-2</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="switch7-tab" data-toggle="tab" href="#switch7" role="tab" aria-controls="switch7" aria-selected="false">05-1</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="switch8-tab" data-toggle="tab" href="#switch8" role="tab" aria-controls="switch8" aria-selected="false">05-2</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="switch9-tab" data-toggle="tab" href="#switch9" role="tab" aria-controls="switch9" aria-selected="false">06</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="switch10-tab" data-toggle="tab" href="#switch10" role="tab" aria-controls="switch10" aria-selected="false">07</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="switch11-tab" data-toggle="tab" href="#switch11" role="tab" aria-controls="switch11" aria-selected="false">08-1</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="switch12-tab" data-toggle="tab" href="#switch12" role="tab" aria-controls="switch12" aria-selected="false">08-2</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="switch13-tab" data-toggle="tab" href="#switch13" role="tab" aria-controls="switch13" aria-selected="false">09-1</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="switch14-tab" data-toggle="tab" href="#switch14" role="tab" aria-controls="switch14" aria-selected="false">09-2</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="switchTabsContent">
+        <div class="tab-pane fade show active" id="switch1" role="tabpanel" aria-labelledby="switch1-tab">
+            <div id="switch-diagram-container1" class="switch-diagram-container"></div>
+            <div id="port-info1" class="mt-4">
+                <h2 class="text-center">Port Information</h2>
+                <p id="info1" class="text-center">Cliquez sur un port pour voir les détails</p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="switch2" role="tabpanel" aria-labelledby="switch2-tab">
+            <div id="switch-diagram-container2" class="switch-diagram-container"></div>
+            <div id="port-info2" class="mt-4">
+                <h2 class="text-center">Port Information</h2>
+                <p id="info2" class="text-center">Cliquez sur un port pour voir les détails</p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="switch3" role="tabpanel" aria-labelledby="switch3-tab">
+            <div id="switch-diagram-container3" class="switch-diagram-container"></div>
+            <div id="port-info3" class="mt-4">
+                <h2 class="text-center">Port Information</h2>
+                <p id="info3" class="text-center">Cliquez sur un port pour voir les détails</p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="switch4" role="tabpanel" aria-labelledby="switch4-tab">
+            <div id="switch-diagram-container4" class="switch-diagram-container"></div>
+            <div id="port-info4" class="mt-4">
+                <h2 class="text-center">Port Information</h2>
+                <p id="info4" class="text-center">Cliquez sur un port pour voir les détails</p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="switch5" role="tabpanel" aria-labelledby="switch5-tab">
+            <div id="switch-diagram-container5" class="switch-diagram-container"></div>
+            <div id="port-info5" class="mt-4">
+                <h2 class="text-center">Port Information</h2>
+                <p id="info5" class="text-center">Cliquez sur un port pour voir les détails</p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="switch6" role="tabpanel" aria-labelledby="switch6-tab">
+            <div id="switch-diagram-container6" class="switch-diagram-container"></div>
+            <div id="port-info6" class="mt-4">
+                <h2 class="text-center">Port Information</h2>
+                <p id="info6" class="text-center">Cliquez sur un port pour voir les détails</p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="switch7" role="tabpanel" aria-labelledby="switch7-tab">
+            <div id="switch-diagram-container7" class="switch-diagram-container"></div>
+            <div id="port-info7" class="mt-4">
+                <h2 class="text-center">Port Information</h2>
+                <p id="info7" class="text-center">Cliquez sur un port pour voir les détails</p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="switch8" role="tabpanel" aria-labelledby="switch8-tab">
+            <div id="switch-diagram-container8" class="switch-diagram-container"></div>
+            <div id="port-info8" class="mt-4">
+                <h2 class="text-center">Port Information</h2>
+                <p id="info8" class="text-center">Cliquez sur un port pour voir les détails</p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="switch9" role="tabpanel" aria-labelledby="switch9-tab">
+            <div id="switch-diagram-container9" class="switch-diagram-container"></div>
+            <div id="port-info9" class="mt-4">
+                <h2 class="text-center">Port Information</h2>
+                <p id="info9" class="text-center">Cliquez sur un port pour voir les détails</p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="switch10" role="tabpanel" aria-labelledby="switch10-tab">
+            <div id="switch-diagram-container10" class="switch-diagram-container"></div>
+            <div id="port-info10" class="mt-4">
+                <h2 class="text-center">Port Information</h2>
+                <p id="info10" class="text-center">Cliquez sur un port pour voir les détails</p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="switch11" role="tabpanel" aria-labelledby="switch11-tab">
+            <div id="switch-diagram-container11" class="switch-diagram-container"></div>
+            <div id="port-info11" class="mt-4">
+                <h2 class="text-center">Port Information</h2>
+                <p id="info11" class="text-center">Cliquez sur un port pour voir les détails</p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="switch12" role="tabpanel" aria-labelledby="switch12-tab">
+            <div id="switch-diagram-container12" class="switch-diagram-container"></div>
+            <div id="port-info12" class="mt-4">
+                <h2 class="text-center">Port Information</h2>
+                <p id="info12" class="text-center">Cliquez sur un port pour voir les détails</p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="switch13" role="tabpanel" aria-labelledby="switch13-tab">
+            <div id="switch-diagram-container13" class="switch-diagram-container"></div>
+            <div id="port-info13" class="mt-4">
+                <h2 class="text-center">Port Information</h2>
+                <p id="info13" class="text-center">Cliquez sur un port pour voir les détails</p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="switch14" role="tabpanel" aria-labelledby="switch14-tab">
+            <div id="switch-diagram-container14" class="switch-diagram-container"></div>
+            <div id="port-info14" class="mt-4">
+                <h2 class="text-center">Port Information</h2>
+                <p id="info14" class="text-center">Cliquez sur un port pour voir les détails</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script>
+    const switches = [
+        { id: 1, container: '#switch-diagram-container1', info: '#info1', csv: 'ports1.csv' },
+        { id: 2, container: '#switch-diagram-container2', info: '#info2', csv: 'ports2.csv' },
+        { id: 3, container: '#switch-diagram-container3', info: '#info3', csv: 'ports3.csv' },
+        { id: 4, container: '#switch-diagram-container4', info: '#info4', csv: 'ports4.csv' },
+        { id: 5, container: '#switch-diagram-container5', info: '#info5', csv: 'ports5.csv' },
+        { id: 6, container: '#switch-diagram-container6', info: '#info6', csv: 'ports6.csv' },
+        { id: 7, container: '#switch-diagram-container7', info: '#info7', csv: 'ports7.csv' },
+        { id: 8, container: '#switch-diagram-container8', info: '#info8', csv: 'ports8.csv' },
+        { id: 9, container: '#switch-diagram-container9', info: '#info9', csv: 'ports9.csv' },
+        { id: 10, container: '#switch-diagram-container10', info: '#info10', csv: 'ports10.csv' },
+        { id: 11, container: '#switch-diagram-container11', info: '#info11', csv: 'ports11.csv' },
+        { id: 12, container: '#switch-diagram-container12', info: '#info12', csv: 'ports12.csv' },
+        { id: 13, container: '#switch-diagram-container13', info: '#info13', csv: 'ports13.csv' },
+        { id: 14, container: '#switch-diagram-container14', info: '#info14', csv: 'ports14.csv' },
+    ];
+
+    switches.forEach(sw => {
+        const container = d3.select(sw.container);
+        const ports = Array.from({ length: 52 }, (v, i) => ({ id: i + 1 }));
+
+        const rows = [
+            { ports: ports.slice(0, 12) },
+            { ports: ports.slice(12, 24) },
+            { ports: ports.slice(24, 36) },
+            { ports: ports.slice(36, 48) },
+            { ports: ports.slice(48) }
+        ];
+
+        rows.forEach((row, index) => {
+            const rowDiv = container.append("div").attr("class", `row ${index === 4 ? "middle" : ""}`);
+            rowDiv.selectAll(".port")
+                .data(row.ports)
+                .enter()
+                .append("div")
+                .attr("class", "port")
+                .attr("data-id", d => d.id)
+                .text(d => d.id)
+                .on("click", function(event, d) {
+                    const portId = d.id;
+                    d3.csv(sw.csv).then(data => {
+                        const portInfo = data.find(row => row.port == portId);
+                        if (portInfo) {
+                            d3.select(sw.info).text(`Port ${portInfo.port}: ${portInfo.description} (Status: ${portInfo.status})`);
+                        }
+                    });
+                });
+        });
+
+        // Update port status based on CSV data
+        d3.csv(sw.csv).then(data => {
+            data.forEach(row => {
+                const port = container.select(`.port[data-id='${row.port}']`);
+                if (row.status === "Active") {
+                    port.classed("active", true);
+                } else {
+                    port.classed("inactive", true);
+                }
+            });
+        });
+    });
+</script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

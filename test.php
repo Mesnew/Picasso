@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Résultat du calcul du tarif</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exposition Picasso</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
         body, html {
             margin: 0;
@@ -44,63 +43,29 @@
     </style>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/index">Exposition Picasso</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" href="/Oeuvres">Les œuvres</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Infos">Informations pratiques</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Base">Tarifs</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Mentions">Mentions Légales</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Formulaire">Formulaire</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Canvas Three.js -->
 <canvas id="canvas"></canvas>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-  <a class="navbar-brand" href="/index">Exposition Picasso</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="/Oeuvres">Les œuvres</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/Infos">Informations pratiques</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="base.php">Tarifs</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="Mentions%20légales.html">Mentions Légales</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="Formulaire.php">Formulaire</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-<?php
-// Vérifier si le formulaire a été soumis
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  // Récupérer les quantités de tickets pour chaque catégorie
-  $normal = isset($_POST['normal']) ? intval($_POST['normal']) : 0;
-  $reduit = isset($_POST['reduit']) ? intval($_POST['reduit']) : 0;
-  $etudiant = isset($_POST['etudiant']) ? intval($_POST['etudiant']) : 0;
-  $membre = isset($_POST['membre']) ? intval($_POST['membre']) : 0;
-  $moins12 = isset($_POST['moins12']) ? intval($_POST['moins12']) : 0;
-
-  // Définir les prix des tickets pour chaque catégorie
-
-  $prix_normal = 32;
-  $prix_reduit = 24;
-  $prix_etudiant = 20;
-  $prix_membre = 12;
-  $prix_moins12 = 5;
-
-  // Calculer le tarif total
-  $tarif_total = ($normal * $prix_normal) + ($reduit * $prix_reduit) + ($etudiant * $prix_etudiant) + ($membre * $prix_membre) + ($moins12 * $prix_moins12);
-
-  // Afficher le tarif total
-  echo '<div class="container content-wrapper">';
-  echo "<h2>Tarif total : $tarif_total €</h2>";
-  echo '</div>';
-}
-?>
+<!-- Three.js and OrbitControls -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+
 <script>
     // Textures
     var q = 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjExMjU4fQ&auto=format&fit=crop&w=827&q=80';
@@ -113,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     function main() {
         const canvas = document.querySelector('#canvas');
-        const renderer = new THREE.WebGLRenderer({canvas, antialias: true});
+        const renderer = new THREE.WebGLRenderer({canvas, antialias: true,});
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(18);
         //--
@@ -135,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         scene.add(s_galax);
         //--
         function createLights() {
-            const l_ambient = new THREE.HemisphereLight( 0xFFFFFF, 0x00A1A2, 1 );
+            const l_ambient = new THREE.HemisphereLight( 0xFFFFFF, 0x00A1ff, 0.5 );
             const r_ambient = new THREE.DirectionalLight( 0x333333, 4);
             r_ambient.position.set( 5, 5, 5 );
             r_ambient.lookAt( 0, 0, 0 );
@@ -183,7 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 displacementMap: e_material(p),
                 flatShading: false,
                 roughness: 0.0,
-                emissive: 0x333333,
+                emissive: 0x33333,
                 metalness: 1.0,
                 refractionRatio: 0.94,
                 emissiveIntensity: 0.1,
@@ -268,8 +233,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     window.addEventListener('load', main, false);
 </script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="js/script.js"></script>
 </body>
 </html>

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Résultat du calcul du tarif</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentions Légales</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <style>
         body, html {
             margin: 0;
@@ -42,63 +42,40 @@
             border-radius: 10px;
         }
     </style>
+
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/index">Exposition Picasso</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" href="/Oeuvres">Les œuvres</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Infos">Informations pratiques</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Base">Tarifs</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Mentions">Mentions Légales</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Formulaire">Formulaire</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Canvas Three.js -->
 <canvas id="canvas"></canvas>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-  <a class="navbar-brand" href="/index">Exposition Picasso</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<div class="container content-wrapper">
+    <h2>Mentions Légales</h2>
+    <p>Raison sociale : [Nom de votre entreprise]</p>
+    <p>Adresse : [Adresse de votre entreprise]</p>
+    <p>Téléphone : [Numéro de téléphone de votre entreprise]</p>
+    <p>Email : [Adresse email de votre entreprise]</p>
+    <p>Ce site est édité par [Nom de votre entreprise], société au capital de [Montant du capital social] euros, immatriculée au RCS de [Ville d'immatriculation] sous le numéro [Numéro RCS], dont le siège social est situé au [Adresse du siège social].</p>
+    <p>Directeur de la publication : [Nom du directeur de publication]</p>
+    <p>Hébergeur du site : [Nom de l'hébergeur], [Adresse de l'hébergeur], [Numéro de téléphone de l'hébergeur], [Adresse email de l'hébergeur]</p>
+    <p>Numéro de TVA intracommunautaire : [Numéro de TVA intracommunautaire]</p>
+</div>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="/Oeuvres">Les œuvres</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/Infos">Informations pratiques</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="base.php">Tarifs</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="Mentions%20légales.html">Mentions Légales</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="Formulaire.php">Formulaire</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-<?php
-// Vérifier si le formulaire a été soumis
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  // Récupérer les quantités de tickets pour chaque catégorie
-  $normal = isset($_POST['normal']) ? intval($_POST['normal']) : 0;
-  $reduit = isset($_POST['reduit']) ? intval($_POST['reduit']) : 0;
-  $etudiant = isset($_POST['etudiant']) ? intval($_POST['etudiant']) : 0;
-  $membre = isset($_POST['membre']) ? intval($_POST['membre']) : 0;
-  $moins12 = isset($_POST['moins12']) ? intval($_POST['moins12']) : 0;
-
-  // Définir les prix des tickets pour chaque catégorie
-
-  $prix_normal = 32;
-  $prix_reduit = 24;
-  $prix_etudiant = 20;
-  $prix_membre = 12;
-  $prix_moins12 = 5;
-
-  // Calculer le tarif total
-  $tarif_total = ($normal * $prix_normal) + ($reduit * $prix_reduit) + ($etudiant * $prix_etudiant) + ($membre * $prix_membre) + ($moins12 * $prix_moins12);
-
-  // Afficher le tarif total
-  echo '<div class="container content-wrapper">';
-  echo "<h2>Tarif total : $tarif_total €</h2>";
-  echo '</div>';
-}
-?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
 <script>
@@ -268,6 +245,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     window.addEventListener('load', main, false);
 </script>
+
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="js/script.js"></script>

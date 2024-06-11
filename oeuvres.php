@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Résultat du calcul du tarif</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les œuvres</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <style>
         body, html {
             margin: 0;
@@ -45,60 +45,57 @@
 </head>
 <body>
 <canvas id="canvas"></canvas>
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-  <a class="navbar-brand" href="/index">Exposition Picasso</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="/Oeuvres">Les œuvres</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/Infos">Informations pratiques</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="base.php">Tarifs</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="Mentions%20légales.html">Mentions Légales</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="Formulaire.php">Formulaire</a>
-      </li>
-    </ul>
-  </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/index">Exposition Picasso</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" href="/Oeuvres">Les œuvres</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Infos">Informations pratiques</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Base">Tarifs</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Mentions">Mentions Légales</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Formulaire">Formulaire</a></li>
+        </ul>
+    </div>
 </nav>
-<?php
-// Vérifier si le formulaire a été soumis
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  // Récupérer les quantités de tickets pour chaque catégorie
-  $normal = isset($_POST['normal']) ? intval($_POST['normal']) : 0;
-  $reduit = isset($_POST['reduit']) ? intval($_POST['reduit']) : 0;
-  $etudiant = isset($_POST['etudiant']) ? intval($_POST['etudiant']) : 0;
-  $membre = isset($_POST['membre']) ? intval($_POST['membre']) : 0;
-  $moins12 = isset($_POST['moins12']) ? intval($_POST['moins12']) : 0;
+<section id="artworks">
+    <div class="container content-wrapper">
+        <div class="row"></div>
+    </div>
+</section>
+<script src="js/script.js"></script>
+<script>
+    var images = [
+        {src: "img/Femme-asise.jpeg", href: "https://fr.artsdot.com/@@/8XYNRE-Pablo-Picasso-Femme-assise"},
+        {src: "img/Jeune-fille-devant-un-miroir.jpg", href: "https://www.pablopicasso.net/fr/jeune-fille-devant-un-miroir/"},
+        {src: "img/La-femme-a-la-fleur.jpeg", href: "https://bi.uobjournal.com/1718-description-of-the-painting-pablo-picasso-woman-with.html"},
+        {src: "img/La-femme-qui-pleure.jpeg", href: "https://www.museumtv.art/artnews/articles/analyse-de-loeuvre-%E2%80%AFfemme-qui-pleure%E2%80%AF-de-pablo-picasso-1937/"},
+        {src: "img/Le-Baiser.jpg", href: "https://journals.openedition.org/carnets/6868"},
+        {src: "img/Le-reve.jpg", href: "https://fr.wikipedia.org/wiki/Le_R%C3%AAve_(Picasso)#:~:text=Le%20R%C3%AAve%20est%20une%20%C5%93uvre,repr%C3%A9sentation%20%C3%A9rotique%20intense%20et%20color%C3%A9e."},
+        {src: "img/Les-Demoiselles-d-Avignon.jpg", href: "https://www.riseart.com/fr/article/2703/l-oeuvre-a-la-loupe-les-demoiselles-d-avignon-de-picasso"},
+        {src: "img/Le-vieux-guitariste-aveugle.jpg", href: "https://celebracionpicasso.es/fr/noticia/obra-de-la-semana-el-viejo-guitarrista-ciego-1903"},
+        {src: "img/Nude-in-red-armchair.jpg", href: "https://www.museepicassoparis.fr/fr/grand-nu-au-fauteuil-rouge#:~:text=Le%20%C2%AB%20Grand%20Nu%20au%20fauteuil,noires%20et%20filaires%20de%201928."}
+    ];
+    images.sort(() => Math.random() - 0.5);
+    var artworksContainer = document.getElementById("artworks").querySelector(".row");
+    images.forEach(image => {
+        var col = document.createElement("div");
+        col.className = "col-lg-4 col-md-6 col-sm-12 mb-4 artwork-column";
+        var link = document.createElement("a");
+        link.href = image.href;
+        link.target = "_blank";
+        var img = document.createElement("img");
+        img.src = image.src;
+        img.alt = "Œuvre";
+        img.className = "artwork-image img-fluid";
+        link.appendChild(img);
+        col.appendChild(link);
+        artworksContainer.appendChild(col);
+    });
+</script>
 
-  // Définir les prix des tickets pour chaque catégorie
-
-  $prix_normal = 32;
-  $prix_reduit = 24;
-  $prix_etudiant = 20;
-  $prix_membre = 12;
-  $prix_moins12 = 5;
-
-  // Calculer le tarif total
-  $tarif_total = ($normal * $prix_normal) + ($reduit * $prix_reduit) + ($etudiant * $prix_etudiant) + ($membre * $prix_membre) + ($moins12 * $prix_moins12);
-
-  // Afficher le tarif total
-  echo '<div class="container content-wrapper">';
-  echo "<h2>Tarif total : $tarif_total €</h2>";
-  echo '</div>';
-}
-?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
 <script>
@@ -270,6 +267,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="js/script.js"></script>
 </body>
 </html>
