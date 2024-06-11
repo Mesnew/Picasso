@@ -4,7 +4,7 @@ RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^(.*)$ /Picasso/
 
 RewriteRule ^index$ index.php
-RewriteRule ^Oeuvres$ Les_Oeuvres.php
+RewriteRule ^Oeuvres$ oeuvres.php
 RewriteRule ^Infos$ Informations_pratiques.php
 RewriteRule ^Formulaire$ Formulaire.php
 RewriteRule ^Mentions$ Mentions_légales.php
