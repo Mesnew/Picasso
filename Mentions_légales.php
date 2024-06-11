@@ -66,14 +66,14 @@
 
 <div class="container content-wrapper">
     <h2>Mentions Légales</h2>
-    <p>Raison sociale : [Nom de votre entreprise]</p>
-    <p>Adresse : [Adresse de votre entreprise]</p>
-    <p>Téléphone : [Numéro de téléphone de votre entreprise]</p>
-    <p>Email : [Adresse email de votre entreprise]</p>
-    <p>Ce site est édité par [Nom de votre entreprise], société au capital de [Montant du capital social] euros, immatriculée au RCS de [Ville d'immatriculation] sous le numéro [Numéro RCS], dont le siège social est situé au [Adresse du siège social].</p>
-    <p>Directeur de la publication : [Nom du directeur de publication]</p>
-    <p>Hébergeur du site : [Nom de l'hébergeur], [Adresse de l'hébergeur], [Numéro de téléphone de l'hébergeur], [Adresse email de l'hébergeur]</p>
-    <p>Numéro de TVA intracommunautaire : [Numéro de TVA intracommunautaire]</p>
+    <p>Raison sociale : Exposition Picasso S.A.</p>
+    <p>Adresse : 123 Rue de l'Art, 75001 Paris, France</p>
+    <p>Téléphone : +33 1 23 45 67 89</p>
+    <p>Email : contact@exposition-picasso.fr</p>
+    <p>Ce site est édité par Exposition Picasso S.A., société au capital de 500 000 euros, immatriculée au RCS de Paris sous le numéro 123 456 789, dont le siège social est situé au 123 Rue de l'Art, 75001 Paris, France.</p>
+    <p>Directeur de la publication : Jean Dupont</p>
+    <p>Hébergeur du site : Hébergement France SARL, 456 Avenue de l'Hébergement, 75002 Paris, France, Téléphone : +33 1 98 76 54 32, Email : support@hebergement-france.fr</p>
+    <p>Numéro de TVA intracommunautaire : FR12 345 678 901</p>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
