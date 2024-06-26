@@ -9,3 +9,4 @@ RewriteRule ^Infos$ Informations_pratiques.php
 RewriteRule ^Formulaire$ Formulaire.php
 RewriteRule ^Mentions$ Mentions_légales.php
 RewriteRule ^Base$ base.php
+RewriteRule ^Reserver$ reserver.php

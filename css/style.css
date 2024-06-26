@@ -146,3 +146,73 @@ html, body, canvas {
   background: transparent; /* S'assure que le body est transparent */
   display: block;
 }
+
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+canvas {
+   display: block;
+   background: transparent;
+   z-index: -1;
+   top: 0;
+   display: block;
+   width: 100%;
+   height: 100%;
+   position: fixed;
+ }
+.content-wrapper {
+  position: relative;
+  z-index: 1;
+  margin-top: 70px; /* Ajustez cette valeur pour ajouter de l'espacement sous la navbar */
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+}
+#threejs-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+h2 {
+  color: #007bff;
+  margin-bottom: 20px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+table, th, td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+.navbar {
+  background-color: #343a40;
+}
+.navbar-brand, .navbar-nav .nav-link {
+  color: #fff;
+}
+.navbar-nav .nav-link:hover {
+  color: #f8f9fa;
+}
+.container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+}
+.navbar-brand {
+  color: #fff; /* Couleur du texte */
+  font-size: 1.5rem; /* Taille de la police */
+  font-weight: bold; /* Gras */
+}
+
+

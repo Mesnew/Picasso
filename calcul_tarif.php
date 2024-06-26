@@ -6,42 +6,6 @@
   <title>Résultat du calcul du tarif</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-        }
-        canvas {
-            display: block;
-            background: transparent;
-            z-index: -1;
-            top: 0;
-            display: block;
-            width: 100%;
-            height: 100%;
-            position: fixed;
-        }
-        #threejs-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-        .content-wrapper {
-            position: relative;
-            z-index: 1;
-            margin-top: 70px; /* Ajustez cette valeur pour ajouter de l'espacement sous la navbar */
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-        }
-    </style>
 </head>
 <body>
 <canvas id="canvas"></canvas>
@@ -61,14 +25,18 @@
         <a class="nav-link" href="/Infos">Informations pratiques</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="base.php">Tarifs</a>
+        <a class="nav-link" href="/Base">Tarifs</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="Mentions%20légales.html">Mentions Légales</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="Formulaire.php">Formulaire</a>
+        <a class="nav-link" href="/Formulaire">Formulaire</a>
       </li>
+        <li class="nav-item"><a class="nav-link" href="/Reserver">Reserver</a></li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Reserver">Reserver</a>
+        </li>
     </ul>
   </div>
 </nav>

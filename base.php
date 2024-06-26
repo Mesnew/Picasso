@@ -1,59 +1,78 @@
-<?php include 'db.config.php'?>
+<?php include 'db.config.php'; ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tarifs</title>
-
-  <!-- Liens vers Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="css/style.css">
-
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-        }
-        canvas {
-            display: block;
-            background: transparent;
-            z-index: -1;
-            top: 0;
-            display: block;
-            width: 100%;
-            height: 100%;
-            position: fixed;
-        }
-        #threejs-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-        .content-wrapper {
-            position: relative;
-            z-index: 1;
-            margin-top: 70px; /* Ajustez cette valeur pour ajouter de l'espacement sous la navbar */
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarifs</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <a class="navbar-brand" href="/index">Exposition Picasso</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/Oeuvres">Les œuvres</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Infos">Informations pratiques</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Base">Tarifs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Mentions">Mentions Légales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Formulaire">Formulaire</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Canvas Three.js -->
 <canvas id="canvas"></canvas>
+
+<div class="container">
+    <h2>Tarifs</h2>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Catégories</th>
+            <th>Prix</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+        // Inclusion de la configuration de la base de données
+        include 'db.config.php';
+
+        $sql = "SELECT categorie, prix FROM tarifs"; // Assurez-vous d'avoir une table qui correspond
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            // Affichage de chaque ligne de résultat
+            while($row = $result->fetch_assoc()) {
+                echo "<tr><td>" . $row["categorie"]. "</td><td>" . $row["prix"] . "€</td></tr>";
+            }
+        } else {
+            echo "<tr><td colspan='2'>Aucun tarif trouvé</td></tr>";
+        }
+        $conn->close();
+        ?>
+        </tbody>
+    </table>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
 <script>
-    // Textures
+    // Initialisation de la scène Three.js
     var q = 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjExMjU4fQ&auto=format&fit=crop&w=827&q=80';
     var e = 'https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-1.2.1&auto=format&fit=crop&w=1033&q=80';
     var p = 'https://images.unsplash.com/photo-1504333638930-c8787321eee0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80';
@@ -81,30 +100,26 @@
         controls.update();
         controls.enableZoom = false;
         //--
-        scene.fog = new THREE.Fog(0x391809, 9, 15)
+        scene.fog = new THREE.Fog(0x391809, 9, 15);
         scene.add(s_group);
         scene.add(s_galax);
         //--
         function createLights() {
-            const l_ambient = new THREE.HemisphereLight( 0xFFFFFF, 0x00A1A2, 1 );
-            const r_ambient = new THREE.DirectionalLight( 0xFFFFFF, 4);
-            r_ambient.position.set( 5, 5, 5 );
-            r_ambient.lookAt( 0, 0, 0 );
+            const l_ambient = new THREE.HemisphereLight(0xFFFFFF, 0x00A1A2, 1);
+            const r_ambient = new THREE.DirectionalLight(0xFFFFFF, 4);
+            r_ambient.position.set(5, 5, 5);
+            r_ambient.lookAt(0, 0, 0);
             r_ambient.castShadow = true;
-            r_ambient.shadow.mapSize.width = 512;  // default
-            r_ambient.shadow.mapSize.height = 512; // default
-            r_ambient.shadow.camera.near = 0.5;    // default
-            r_ambient.shadow.camera.far = 500;     // default
-            //--
-            scene.add( r_ambient );
-            //scene.add( l_ambient );
+            r_ambient.shadow.mapSize.width = 512;
+            r_ambient.shadow.mapSize.height = 512;
+            r_ambient.shadow.camera.near = 0.5;
+            r_ambient.shadow.camera.far = 500;
+            scene.add(r_ambient);
         }
-        //--
 
         function e_material(value) {
-            (value==undefined) ? value = a : value = value;
-            const o = new THREE.TextureLoader().load(value);
-            return o;
+            value = value || a;
+            return new THREE.TextureLoader().load(value);
         }
 
         function e_envMap() {
@@ -113,13 +128,13 @@
             t_envMap.magFilter = THREE.LinearFilter;
             t_envMap.minFilter = THREE.LinearMipmapLinearFilter;
             t_envMap.encoding = THREE.sRGBEncoding;
-            //---
             return t_envMap;
         }
+
         var c_mat, a_mes, b_mes, c_mes, d_mes;
         function createElements() {
-            const a_geo = new THREE.IcosahedronBufferGeometry(1,5);
-            const b_geo = new THREE.TorusKnotBufferGeometry( 0.6, 0.25, 100, 15 );
+            const a_geo = new THREE.IcosahedronBufferGeometry(1, 5);
+            const b_geo = new THREE.TorusKnotBufferGeometry(0.6, 0.25, 100, 15);
             const c_geo = new THREE.TetrahedronGeometry(1, 3);
             const d_geo = new THREE.TorusGeometry(2, 0.4, 3, 60);
 
@@ -132,7 +147,6 @@
                 emissiveMap: e_material(q),
                 metalnessMap: e_material(e),
                 displacementMap: e_material(p),
-                flatShading: false,
                 roughness: 0.0,
                 emissive: 0x333333,
                 metalness: 1.0,
@@ -145,7 +159,6 @@
             a_mes = new THREE.Mesh(a_geo, c_mat);
             b_mes = new THREE.Mesh(b_geo, c_mat);
             c_mes = new THREE.Mesh(c_geo, c_mat);
-
             d_mes = new THREE.Mesh(d_geo, c_mat);
             d_mes.name = 'd_mes_object';
 
@@ -168,9 +181,8 @@
         function createPoints(value, size) {
             const geometry = new THREE.BufferGeometry();
             const positions = [];
-            const n = (size) ? size : 20, n2 = n / 2;
-            for (let i = 0; i < ((value) ? value : 15000); i++) {
-                // positions
+            const n = size || 20, n2 = n / 2;
+            for (let i = 0; i < (value || 15000); i++) {
                 const x = Math.random() * n - n2;
                 const y = Math.random() * n - n2;
                 const z = Math.random() * n - n2;
@@ -178,8 +190,7 @@
             }
             geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
             geometry.computeBoundingSphere();
-            //
-            const material = new THREE.PointsMaterial({ size: 0.02});
+            const material = new THREE.PointsMaterial({ size: 0.02 });
             const points = new THREE.Points(geometry, material);
             s_galax.add(points);
         }
@@ -191,10 +202,6 @@
             s_group.rotation.x += 0.0005;
             s_galax.rotation.z += 0.001 / 4;
             s_galax.rotation.x += 0.0005 / 4;
-            //--
-            //--
-            //s_group.position.y = Math.sin(time * 0.05) * 0.05;
-
             camera.lookAt(scene.position);
             camera.updateMatrixWorld();
             renderer.render(scene, camera);
@@ -207,13 +214,12 @@
             camera.updateProjectionMatrix();
             renderer.setSize(w, h);
         }
-        //--
+
         createElements();
         createPoints();
         createLights();
         onWindowResize();
         animation();
-        //--
         window.addEventListener('resize', onWindowResize, false);
     }
 
@@ -226,5 +232,4 @@
 <script src="js/script.js"></script>
 </body>
 </html>
-
-<?php?>
+<?php ?>

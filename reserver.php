@@ -1,92 +1,307 @@
+<?php include 'db.config.php'; ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nébuleuse</title>
+    <title>Réserver des places</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <style>
-        body, html {
+        body {
             margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
+            overflow-x: hidden;
+            font-family: 'Arial', sans-serif;
+            background: #000000; /* Couleur de fond pour la compatibilité */
+            color: #343a40; /* Couleur du texte */
         }
-        canvas {
-            display: block;
-            background: transparent;
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+            margin-top: 70px; /* Ajout d'espacement pour éviter la barre de navigation */
         }
-        #threejs-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
+
+        h2 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .navbar {
+            background-color: #343a40; /* Couleur de fond */
+        }
+
+        .navbar-brand {
+            color: #fff; /* Couleur du texte */
+            font-size: 1.5rem; /* Taille de la police */
+            font-weight: bold; /* Gras */
+        }
+
+        .navbar-nav .nav-link {
+            color: #fff; /* Couleur du texte */
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #f8f9fa; /* Couleur du texte au survol */
         }
     </style>
 </head>
 <body>
-<div id="threejs-container"></div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/index">Exposition Picasso</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" href="/Oeuvres">Les œuvres</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Infos">Informations pratiques</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Base">Tarifs</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Mentions">Mentions Légales</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Formulaire">Formulaire</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Reserver">Réserver</a></li>
+        </ul>
+    </div>
+</nav>
+<canvas id="canvas"></canvas>
 
+<div class="container">
+    <h2>Réserver des places</h2>
+    <form action="reserver.php" method="post">
+        <div class="form-group">
+            <label for="name">Nom :</label>
+            <input type="text" id="name" name="name" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email :</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Téléphone :</label>
+            <input type="text" id="phone" name="phone" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="tickets">Nombre de places :</label>
+            <input type="number" id="tickets" name="tickets" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Réserver</button>
+    </form>
+
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+        $tickets = intval($_POST['tickets']);
+
+        // Récupérer la limite actuelle
+        $sql = "SELECT limit_visitors FROM settings WHERE setting='visitor_limit'";
+        $result = $conn->query($sql);
+        $row = $result->fetch_assoc();
+        $limit_visitors = $row['limit_visitors'];
+
+        // Compter le nombre total de tickets réservés pour aujourd'hui
+        $today = date('Y-m-d');
+        $sql = "SELECT SUM(tickets) as total_tickets FROM reservations WHERE reservation_date = '$today'";
+        $result = $conn->query($sql);
+        $row = $result->fetch_assoc();
+        $total_tickets_today = $row['total_tickets'];
+
+        // Vérifier si la réservation dépasse la limite
+        if (($total_tickets_today + $tickets) <= $limit_visitors) {
+            // Insérer la réservation dans la base de données
+            $stmt = $conn->prepare("INSERT INTO reservations (name, email, phone, tickets, reservation_date) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssds", $name, $email, $phone, $tickets, $today);
+
+            if ($stmt->execute()) {
+                echo "<div class='alert alert-success mt-3'>Réservation réussie.</div>";
+            } else {
+                echo "<div class='alert alert-danger mt-3'>Erreur: " . $stmt->error . "</div>";
+            }
+
+            $stmt->close();
+        } else {
+            echo "<div class='alert alert-danger mt-3'>Limite de réservations atteinte pour aujourd'hui.</div>";
+        }
+    }
+
+    $conn->close();
+    ?>
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
 <script>
-    // Initialisation de la scène
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    var renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x000000, 0); // Assure la transparence
-    document.getElementById('threejs-container').appendChild(renderer.domElement);
+    // Textures
+    var q = 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjExMjU4fQ&auto=format&fit=crop&w=827&q=80';
+    var e = 'https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-1.2.1&auto=format&fit=crop&w=1033&q=80';
+    var p = 'https://images.unsplash.com/photo-1504333638930-c8787321eee0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80';
+    var a = 'https://images.unsplash.com/photo-1484589065579-248aad0d8b13?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=696&q=80';
 
-    // Contrôles d'orbite
-    var controls = new THREE.OrbitControls(camera, renderer.domElement);
+    var s_group = new THREE.Group();
+    var s_galax = new THREE.Group();
 
-    // Création des étoiles
-    function createStars() {
-        var geometry = new THREE.BufferGeometry();
-        var vertices = [];
+    function main() {
+        const canvas = document.querySelector('#canvas');
+        const renderer = new THREE.WebGLRenderer({canvas, antialias: true});
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(18);
+        //--
+        camera.near = 1;
+        camera.far = 2000;
+        camera.position.z = -10;
+        renderer.gammaInput = true;
+        renderer.gammaOutput = true;
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        //--
+        const controls = new THREE.OrbitControls(camera, canvas);
+        controls.target.set(0, 0, 0);
+        controls.update();
+        controls.enableZoom = false;
+        //--
+        scene.fog = new THREE.Fog(0x391809, 9, 15)
+        scene.add(s_group);
+        scene.add(s_galax);
+        //--
+        function createLights() {
+            const l_ambient = new THREE.HemisphereLight( 0xFFFFFF, 0x00A1A2, 1 );
+            const r_ambient = new THREE.DirectionalLight( 0x333333, 4);
+            r_ambient.position.set( 5, 5, 5 );
+            r_ambient.lookAt( 0, 0, 0 );
+            r_ambient.castShadow = true;
+            r_ambient.shadow.mapSize.width = 512;  // default
+            r_ambient.shadow.mapSize.height = 512; // default
+            r_ambient.shadow.camera.near = 0.5;    // default
+            r_ambient.shadow.camera.far = 500;     // default
+            //--
+            scene.add( r_ambient );
+            //scene.add( l_ambient );
+        }
+        //--
 
-        for (var i = 0; i < 5000; i++) {
-            var x = THREE.MathUtils.randFloatSpread(2000);
-            var y = THREE.MathUtils.randFloatSpread(2000);
-            var z = THREE.MathUtils.randFloatSpread(2000);
-            vertices.push(x, y, z);
+        function e_material(value) {
+            (value==undefined) ? value = a : value = value;
+            const o = new THREE.TextureLoader().load(value);
+            return o;
         }
 
-        geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-        var material = new THREE.PointsMaterial({ color: 0xffffff });
-        var points = new THREE.Points(geometry, material);
-        scene.add(points);
+        function e_envMap() {
+            const t_envMap = new THREE.TextureLoader().load(a);
+            t_envMap.mapping = THREE.EquirectangularReflectionMapping;
+            t_envMap.magFilter = THREE.LinearFilter;
+            t_envMap.minFilter = THREE.LinearMipmapLinearFilter;
+            t_envMap.encoding = THREE.sRGBEncoding;
+            //---
+            return t_envMap;
+        }
+        var c_mat, a_mes, b_mes, c_mes, d_mes;
+        function createElements() {
+            const a_geo = new THREE.IcosahedronBufferGeometry(1,5);
+            const b_geo = new THREE.TorusKnotBufferGeometry( 0.6, 0.25, 100, 15 );
+            const c_geo = new THREE.TetrahedronGeometry(1, 3);
+            const d_geo = new THREE.TorusGeometry(2, 0.4, 3, 60);
+
+            c_mat = new THREE.MeshStandardMaterial({
+                envMap: e_envMap(),
+                map: e_material(e),
+                aoMap: e_material(e),
+                bumpMap: e_material(q),
+                lightMap: e_material(p),
+                emissiveMap: e_material(q),
+                metalnessMap: e_material(e),
+                displacementMap: e_material(p),
+                flatShading: false,
+                roughness: 0.0,
+                emissive: 0x333333,
+                metalness: 1.0,
+                refractionRatio: 0.94,
+                emissiveIntensity: 0.1,
+                bumpScale: 0.01,
+                aoMapIntensity: 0.0,
+                displacementScale: 0.0
+            });
+            a_mes = new THREE.Mesh(a_geo, c_mat);
+            b_mes = new THREE.Mesh(b_geo, c_mat);
+            c_mes = new THREE.Mesh(c_geo, c_mat);
+
+            d_mes = new THREE.Mesh(d_geo, c_mat);
+            d_mes.name = 'd_mes_object';
+
+            a_mes.castShadow = a_mes.receiveShadow = true;
+            b_mes.castShadow = b_mes.receiveShadow = true;
+            c_mes.castShadow = c_mes.receiveShadow = true;
+            d_mes.castShadow = d_mes.receiveShadow = true;
+
+            d_mes.rotation.x = -90 * Math.PI / 180;
+            d_mes.scale.z = 0.02;
+            a_mes.add(d_mes);
+
+            s_group.add(a_mes);
+            s_group.add(b_mes);
+            s_group.add(c_mes);
+
+            b_mes.visible = c_mes.visible = false;
+        }
+
+        function createPoints(value, size) {
+            const geometry = new THREE.BufferGeometry();
+            const positions = [];
+            const n = (size) ? size : 20, n2 = n / 2;
+            for (let i = 0; i < ((value) ? value : 15000); i++) {
+                // positions
+                const x = Math.random() * n - n2;
+                const y = Math.random() * n - n2;
+                const z = Math.random() * n - n2;
+                positions.push(x, y, z);
+            }
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            geometry.computeBoundingSphere();
+            //
+            const material = new THREE.PointsMaterial({ size: 0.02});
+            const points = new THREE.Points(geometry, material);
+            s_galax.add(points);
+        }
+
+        function animation() {
+            requestAnimationFrame(animation);
+            let time = Date.now() * 0.003;
+            s_group.rotation.y -= 0.001;
+            s_group.rotation.x += 0.0005;
+            s_galax.rotation.z += 0.001 / 4;
+            s_galax.rotation.x += 0.0005 / 4;
+            //--
+            //--
+            //s_group.position.y = Math.sin(time * 0.05) * 0.05;
+
+            camera.lookAt(scene.position);
+            camera.updateMatrixWorld();
+            renderer.render(scene, camera);
+        }
+
+        function onWindowResize() {
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h);
+        }
+        //--
+        createElements();
+        createPoints();
+        createLights();
+        onWindowResize();
+        animation();
+        //--
+        window.addEventListener('resize', onWindowResize, false);
     }
 
-    createStars();
-
-    // Création de la nébuleuse
-    function createNebula() {
-        var textureLoader = new THREE.TextureLoader();
-        var texture = textureLoader.load('https://threejsfundamentals.org/threejs/resources/images/nebula.jpg');
-        var material = new THREE.SpriteMaterial({ map: texture, color: 0xffffff, transparent: true });
-        var sprite = new THREE.Sprite(material);
-        sprite.scale.set(500, 500, 1);
-        scene.add(sprite);
-    }
-
-    createNebula();
-
-    camera.position.z = 1000;
-
-    // Fonction d'animation
-    var animate = function () {
-        requestAnimationFrame(animate);
-
-        controls.update();
-        renderer.render(scene, camera);
-    };
-
-    animate();
+    window.addEventListener('load', main, false);
 </script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="js/script.js"></script>
 </body>
 </html>
