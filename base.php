@@ -87,7 +87,7 @@
         //--
         function createLights() {
             const l_ambient = new THREE.HemisphereLight( 0xFFFFFF, 0x00A1A2, 1 );
-            const r_ambient = new THREE.DirectionalLight( 0x333333, 4);
+            const r_ambient = new THREE.DirectionalLight( 0xFFFFFF, 4);
             r_ambient.position.set( 5, 5, 5 );
             r_ambient.lookAt( 0, 0, 0 );
             r_ambient.castShadow = true;
@@ -226,4 +226,5 @@
 <script src="js/script.js"></script>
 </body>
 </html>
+
 <?php?>
