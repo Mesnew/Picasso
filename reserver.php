@@ -61,7 +61,7 @@
             <li class="nav-item"><a class="nav-link" href="/Base">Tarifs</a></li>
             <li class="nav-item"><a class="nav-link" href="/Mentions">Mentions Légales</a></li>
             <li class="nav-item"><a class="nav-link" href="/Formulaire">Formulaire</a></li>
-            <li class="nav-item"><a class="nav-link" href="/Reserver">Réserver</a></li>
+            <li class="nav-item"><a class="nav-link" href="/Reserver">Reserver</a></li>
         </ul>
     </div>
 </nav>

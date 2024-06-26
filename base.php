@@ -31,6 +31,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="/Formulaire">Formulaire</a>
             </li>
+            <li class="nav-item"><a class="nav-link" href="/Reserver">Reserver</a></li>
         </ul>
     </div>
 </nav>
